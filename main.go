@@ -21,25 +21,25 @@ func main() {
 	}()
 	fmt.Printf("starting: %d\n", os.Getpid())
 
-	subProcess := exec.Command("go", "run", "test/test.go")
+	cmd := exec.Command("go", "run", "test/test.go")
 
 	// stdin, err := subProcess.StdinPipe()
 	// defer stdin.Close()
 
 	var out, stderr bytes.Buffer
-	subProcess.Stdout = &out
-	subProcess.Stderr = &stderr
+	cmd.Stdout = &out
+	cmd.Stderr = &stderr
 
 	// subProcess.Stdout = os.Stdout
 	// subProcess.Stderr = os.Stderr
 
 	fmt.Println("START")
-	if err := subProcess.Start(); err != nil {
+	if err := cmd.Start(); err != nil {
 		fmt.Println("An error occured: \n", err)
 	}
 
 	//io.WriteString(stdin, "4\n")
-	if err := subProcess.Wait(); err != nil {
+	if err := cmd.Wait(); err != nil {
 		fmt.Printf("issue: %v\n", err)
 	}
 	fmt.Println("END")
