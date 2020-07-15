@@ -21,38 +21,41 @@ func main() {
 	}()
 	fmt.Printf("starting: %d\n", os.Getpid())
 
-	// subProcess := exec.Command("git", "fetch") //Just for testing, replace with your subProcess
+	subProcess := exec.Command("go", "run", "test/test.go")
 
 	// stdin, err := subProcess.StdinPipe()
-	// if err != nil {
-	// 	fmt.Println(err) //replace with logger, or anything you want
-	// }
-	// defer stdin.Close() // the doc says subProcess.Wait will close it, but I'm not sure, so I kept this line
+	// defer stdin.Close()
+
+	var out, stderr bytes.Buffer
+	subProcess.Stdout = &out
+	subProcess.Stderr = &stderr
 
 	// subProcess.Stdout = os.Stdout
 	// subProcess.Stderr = os.Stderr
 
-	// fmt.Println("START")                      //for debug
-	// if err = subProcess.Start(); err != nil { //Use start, not run
-	// 	fmt.Println("An error occured: \n", err) //replace with logger, or anything you want
-	// }
-
-	// //io.WriteString(stdin, "4\n")
-	// if err = subProcess.Wait(); err != nil {
-	// 	fmt.Printf("issue: %v\n", err)
-	// }
-	// fmt.Println("END")
-
-	cmd := exec.Command("go", "run", "test/test.go")
-
-	var out, stderr bytes.Buffer
-	cmd.Stdout = &out
-	cmd.Stderr = &stderr
-	fmt.Printf("running\n")
-	err := cmd.Run()
-	if err != nil {
-		panic(err)
+	fmt.Println("START")
+	if err := subProcess.Start(); err != nil {
+		fmt.Println("An error occured: \n", err)
 	}
-	fmt.Println(cmd.Stdout)
-	fmt.Println(cmd.Stderr)
+
+	//io.WriteString(stdin, "4\n")
+	if err := subProcess.Wait(); err != nil {
+		fmt.Printf("issue: %v\n", err)
+	}
+	fmt.Println("END")
+	fmt.Println(out)
+	fmt.Println(stderr)
+
+	// cmd := exec.Command("go", "run", "test/test.go")
+
+	// var out, stderr bytes.Buffer
+	// cmd.Stdout = &out
+	// cmd.Stderr = &stderr
+	// fmt.Printf("running\n")
+	// err := cmd.Run()
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// fmt.Println(cmd.Stdout)
+	// fmt.Println(cmd.Stderr)
 }
