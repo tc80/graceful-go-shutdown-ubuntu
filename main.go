@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"os"
+	"os/exec"
 	"os/signal"
 	"syscall"
 )
@@ -18,7 +20,7 @@ func main() {
 		}
 	}()
 	fmt.Printf("starting: %d\n", os.Getpid())
-	select {}
+	// select {}
 
 	// cmd := exec.Command("go", "run", "test/test.go")
 
@@ -45,16 +47,17 @@ func main() {
 	// fmt.Println(out)
 	// fmt.Println(stderr)
 
+	cmd := exec.Command("git", "clone", "https://github.com/cdnjs/cdnjs.git")
 	// cmd := exec.Command("go", "run", "test/test.go")
 
-	// var out, stderr bytes.Buffer
-	// cmd.Stdout = &out
-	// cmd.Stderr = &stderr
-	// fmt.Printf("running\n")
-	// err := cmd.Run()
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// fmt.Println(cmd.Stdout)
-	// fmt.Println(cmd.Stderr)
+	var out, stderr bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &stderr
+	fmt.Printf("running\n")
+	err := cmd.Run()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(cmd.Stdout)
+	fmt.Println(cmd.Stderr)
 }
