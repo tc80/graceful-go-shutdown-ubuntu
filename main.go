@@ -1,10 +1,8 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"os"
-	"os/exec"
 	"os/signal"
 	"syscall"
 )
@@ -20,31 +18,32 @@ func main() {
 		}
 	}()
 	fmt.Printf("starting: %d\n", os.Getpid())
+	select {}
 
-	cmd := exec.Command("go", "run", "test/test.go")
+	// cmd := exec.Command("go", "run", "test/test.go")
 
 	// stdin, err := subProcess.StdinPipe()
 	// defer stdin.Close()
 
-	var out, stderr bytes.Buffer
-	cmd.Stdout = &out
-	cmd.Stderr = &stderr
+	// var out, stderr bytes.Buffer
+	// cmd.Stdout = &out
+	// cmd.Stderr = &stderr
 
 	// subProcess.Stdout = os.Stdout
 	// subProcess.Stderr = os.Stderr
 
-	fmt.Println("START")
-	if err := cmd.Start(); err != nil {
-		fmt.Println("An error occured: \n", err)
-	}
+	// fmt.Println("START")
+	// if err := cmd.Start(); err != nil {
+	// 	fmt.Println("An error occured: \n", err)
+	// }
 
-	//io.WriteString(stdin, "4\n")
-	if err := cmd.Wait(); err != nil {
-		fmt.Printf("issue: %v\n", err)
-	}
-	fmt.Println("END")
-	fmt.Println(out)
-	fmt.Println(stderr)
+	// //io.WriteString(stdin, "4\n")
+	// if err := cmd.Wait(); err != nil {
+	// 	fmt.Printf("issue: %v\n", err)
+	// }
+	// fmt.Println("END")
+	// fmt.Println(out)
+	// fmt.Println(stderr)
 
 	// cmd := exec.Command("go", "run", "test/test.go")
 
